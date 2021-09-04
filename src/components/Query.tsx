@@ -32,6 +32,7 @@ function Query({value, setValue}: QueryProps){
                 endDate: value.filter.created_at_lte
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -47,6 +48,7 @@ function Query({value, setValue}: QueryProps){
                 }
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [select])
 
     useEffect(() => {
@@ -57,6 +59,7 @@ function Query({value, setValue}: QueryProps){
                 created_at_lte: date.endDate
             }
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date])
 
     const custom = (

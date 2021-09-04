@@ -100,6 +100,7 @@ export default function useAccount(variables: GetAllQueryFilter) {
                 categories,
             }
         }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     return { loading, error, data, options, series }
