@@ -4,7 +4,7 @@ import {
     gql
 } from "@apollo/client";
 
-interface GetAllAccountsData {
+interface GetAllTransactionsData {
     allTransactions: Transaction[]
 }
 
@@ -33,7 +33,7 @@ const GET_TRANSACTIONS = gql`
 `;
 
 export function useTransactionBranch(variables: GetAllTransactionFilter) {
-    const { loading, error, data } = useQuery<GetAllAccountsData, GetAllTransactionFilter>(GET_TRANSACTIONS, { variables });
+    const { loading, error, data } = useQuery<GetAllTransactionsData, GetAllTransactionFilter>(GET_TRANSACTIONS, { variables });
     const [series, setSeries] = useState([] as any[])
     const [options, setOptions] = useState({
         chart: {

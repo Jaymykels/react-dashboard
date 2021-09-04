@@ -1,14 +1,9 @@
-import  { useEffect, useState } from 'react'
-import {Card, Row, Col} from "react-bootstrap"
+import {Card} from "react-bootstrap"
 import Chart from 'react-apexcharts'
 import { useTransactionBranch } from '../../hooks/transaction';
 
-export interface TransactionBranchFrameProps {
-    
-}
- 
-function TransactionBranchFrame({}: TransactionBranchFrameProps){
-    const { loading, error, data, options, series } = useTransactionBranch({ filter: {}})
+function TransactionBranchFrame(){
+    const { loading, error, options, series } = useTransactionBranch({ filter: {}})
     
     if(loading)
         return(<div>Loading...</div>)
