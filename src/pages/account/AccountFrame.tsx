@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react'
 import {Card, Row, Col} from "react-bootstrap"
 import useAccount, { Account } from '../../hooks/account';
-import Query, { GetAllQueryFilter } from './Query';
+import Query, { GetAllQueryFilter } from '../../components/Query';
 import Chart from 'react-apexcharts'
 
 

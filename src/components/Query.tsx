@@ -5,6 +5,7 @@ export interface GetAllQueryFilter {
     filter: {
         created_at_gte?: string;
         created_at_lte?: string;
+        type?: string;
     }
 }
 

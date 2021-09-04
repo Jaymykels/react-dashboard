@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {Row, Col} from "react-bootstrap"
-import Query, { GetAllQueryFilter } from './Query';
+import Query, { GetAllQueryFilter } from '../../components/Query';
 import AccountFrame from './AccountFrame';
 import { Account as AccountInterface } from '../../hooks/account';
 

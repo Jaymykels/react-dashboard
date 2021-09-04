@@ -3,7 +3,7 @@ import {
     useQuery,
     gql
 } from "@apollo/client";
-import { GetAllQueryFilter } from "../pages/account/Query";
+import { GetAllQueryFilter } from "../components/Query";
 
 interface GetAllAccountsData {
     allAccounts: Account[]
@@ -60,13 +60,6 @@ export default function useAccount(variables: GetAllQueryFilter) {
         },
         fill: {
             opacity: 1
-        },
-        tooltip: {
-            y: {
-                formatter: function (val: number) {
-                    return val + " account(s)"
-                }
-            }
         }
     })
 
