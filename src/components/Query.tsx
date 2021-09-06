@@ -19,7 +19,7 @@ const sevenDaysAgo = new Date()
 sevenDaysAgo.setDate(today.getDate()-6)
 
 function Query({value, setValue}: QueryProps){
-    const [select, setSelect] = useState("lastSevenDays")
+    const [select, setSelect] = useState("")
     const [date, setDate] = useState({ startDate: "" as string, endDate: "" as string})
 
     useEffect(() => {
