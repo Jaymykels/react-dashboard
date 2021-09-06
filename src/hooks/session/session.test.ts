@@ -1,4 +1,4 @@
-import { Session, sessionToMarker } from "./session";
+import { Session, sessionToMarker } from ".";
 
 const sessions: Session[] = [...Array(10).keys()].map(id => ({
     id: id.toString(),

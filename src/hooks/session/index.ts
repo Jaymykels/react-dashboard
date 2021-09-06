@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { GET_ALL_SESSIONS } from "../graph/queries";
+import { GET_ALL_SESSIONS } from "../../graph/queries";
 
 interface GetAllSessionData {
     allSessions: Session[]
