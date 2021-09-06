@@ -1,7 +1,5 @@
-import {
-    useQuery,
-    gql
-} from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_SESSIONS } from "../graph/queries";
 
 interface GetAllSessionData {
     allSessions: Session[]
@@ -12,17 +10,6 @@ interface Session {
     lat: string;
     long: string;
 }
-
-
-const GET_ALL_SESSIONS = gql`
-    query GetAllSessions {
-        allSessions {
-            id
-            lat
-            long
-        }
-    }
-`;
 
 export function useSession() {
     const { loading, error, data } = useQuery<GetAllSessionData>(GET_ALL_SESSIONS)

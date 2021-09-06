@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import {
-    useQuery,
-    gql
-} from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GetAllQueryFilter } from "../components/Query";
+import { GET_TRANSACTIONS } from "../graph/queries";
+import { options as chartOptions } from "../util/chartOptions"
+import { days } from "../util/constants";
+import { isGreaterThanSevenDays } from "../util/greaterThanSevenDays";
 
 interface GetAllTransactionsData {
     allTransactions: Transaction[]
@@ -17,53 +18,10 @@ export interface Transaction {
     created_at: string;
 }
 
-const GET_TRANSACTIONS = gql`
-    query GetAllTransactions($filter: TransactionFilter) {
-        allTransactions(filter: $filter) {
-            id
-            type
-            amount
-            branch
-            created_at
-        }
-    }
-`;
-
 export function useTransactionBranch(variables: GetAllQueryFilter) {
     const { loading, error, data } = useQuery<GetAllTransactionsData, GetAllQueryFilter>(GET_TRANSACTIONS, { variables });
     const [series, setSeries] = useState([] as any[])
-    const [options, setOptions] = useState({
-        chart: {
-            type: "bar" as 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: [] as string[],
-        },
-        yaxis: {
-            title: {
-                text: 'Transactions'
-            }
-        },
-        fill: {
-            opacity: 1
-        }
-    })
+    const [options, setOptions] = useState(chartOptions)
 
     useEffect(() => {
         if (!data) return
@@ -91,6 +49,11 @@ export function useTransactionBranch(variables: GetAllQueryFilter) {
             ...o,
             xaxis: {
                 categories,
+            },
+            yaxis: {
+                title: {
+                    text: 'Transaction'
+                }
             }
         }))
     }, [data])
@@ -98,57 +61,18 @@ export function useTransactionBranch(variables: GetAllQueryFilter) {
     return { loading, error, data, options, series }
 }
 
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 export function useTransactionPeriod(variables: GetAllQueryFilter){
     variables.filter.type = 'credit'
     const { loading, error, data } = useQuery<GetAllTransactionsData, GetAllQueryFilter>(GET_TRANSACTIONS, { variables });
     const [series, setSeries] = useState([] as any[])
-    const [options, setOptions] = useState({
-        chart: {
-            type: "bar" as 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: [] as string[],
-        },
-        yaxis: {
-            title: {
-                text: 'Amount'
-            }
-        },
-        fill: {
-            opacity: 1
-        }
-    })
-
-    const today = new Date()
-    const queryDate = new Date(variables.filter.created_at_gte || "")
-    const diffTime = Math.abs((today as any) - (queryDate as any));
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-    const greaterThanSevenDays = diffDays > 7
+    const [options, setOptions] = useState(chartOptions)
 
     useEffect(() => {
         if (!data) return
         const types = new Set(data.allTransactions.map(el => el.type))
         const group = data.allTransactions.reduce((result, item) => {
             const date = new Date(item.created_at)
-            const key = greaterThanSevenDays ? `${date.getFullYear()}-${date.getMonth()+1}` : `${days[date.getDay()]}`
+            const key = isGreaterThanSevenDays(variables.filter.created_at_gte) ? `${date.getFullYear()}-${date.getMonth()+1}` : `${days[date.getDay()]}`
             if (result[key])
                 result[key].push(item)
             else
@@ -175,6 +99,11 @@ export function useTransactionPeriod(variables: GetAllQueryFilter){
             ...o,
             xaxis: {
                 categories,
+            },
+            yaxis: {
+                title: {
+                    text: 'Amount'
+                }
             }
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
